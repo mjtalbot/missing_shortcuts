@@ -5,6 +5,8 @@ void main() {
   runApp(const MyApp());
 }
 
+const useMenuBar = false;
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -17,23 +19,23 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Macos"),
+          title: const Text("Macos"),
         ),
-        body: (false)
-            ? MyContents()
-            : PlatformMenuBar(
+        body: (useMenuBar)
+            ? const PlatformMenuBar(
                 menus: [],
                 child: MyContents(),
-              ),
+              )
+            : const MyContents(),
       ),
     );
   }
 }
 
 class MyContents extends StatelessWidget {
+  const MyContents({super.key});
+
   Future<void> doit() async {
-    var offset = const Offset(0, 0);
-    var windowSize = const Size(800, 600);
     await openWebView();
     await closeWebView();
   }
@@ -46,13 +48,19 @@ class MyContents extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const Text(
-            'Open and see if you can copy paste:',
+            'Copy paste works inside the flutter app, but not the webview.',
+          ),
+          const TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Copy paste works here...',
+            ),
           ),
           TextButton(
               onPressed: () {
                 doit();
               },
-              child: Text('Open native view')),
+              child: const Text('Open webview')),
         ],
       ),
     );
